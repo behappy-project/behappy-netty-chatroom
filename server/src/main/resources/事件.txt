@@ -1,0 +1,25 @@
+// server 发送
+socket.emit("history-message","group_001",messages);
+socket.emit('loginFail','登录失败,昵称已存在!')
+socket.emit('loginSuccess', data, users);
+socket.broadcast.emit('message', socket.user,to,message,type);
+socket.broadcast.emit('system', user, 'join');
+socket.broadcast.emit('system', socket.user, 'logout');
+socket.broadcast.to(to.roomId).emit('message', socket.user, to,message,type);
+// server 接收
+socket.on('message',(from, to,message,type)=> {
+socket.on("disconnect",(reason)=>{
+socket.on('login',(user)=>{
+
+// client 发送
+this.socket.emit('login',user)
+this.socket.emit("message",message.from,message.to,message.content,message.type)
+// client 接收
+_this.socket.on("error",()=>{
+_this.socket.on("disconnect",(reason)=>{
+_this.socket.on("connect",(data)=>{
+_this.socket.on("loginSuccess",_this.loginSuccess);
+_this.socket.on("loginFail",_this.loginFail);
+_this.socket.on("message",_this.listenerMessage);
+_this.socket.on("system",_this.listenerSystem);
+_this.socket.on("history-message",_this.listenerHistoryMessage);
