@@ -1,4 +1,6 @@
 chatroom:
   port: ${APP_PORT:8999}
   host: ${APP_HOST:localhost}
-  token-key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+  token-key: ${APP_TOKEN_KEY:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9}
+  image-path: ${APP_IMAGE_PATH:D:\var\imagePath}
+

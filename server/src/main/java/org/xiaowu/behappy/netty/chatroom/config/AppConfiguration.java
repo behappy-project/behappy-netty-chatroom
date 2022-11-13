@@ -19,4 +19,9 @@ public class AppConfiguration {
 
     private String tokenKey;
 
+    /**
+     * 存储图片的路径
+     */
+    private String imagePath;
+
 }
