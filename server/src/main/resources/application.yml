@@ -3,4 +3,9 @@ chatroom:
   host: ${APP_HOST:localhost}
   token-key: ${APP_TOKEN_KEY:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9}
   image-path: ${APP_IMAGE_PATH:D:\var\imagePath}
-
+spring:
+  data:
+    redis:
+      host: ${APP_REDIS_HOST:114.132.226.171}
+      password: ${APP_REDIS_PASS:J*#36@us.tin}
+      port: ${APP_REDIS_PORT:9737}

@@ -10,6 +10,7 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import io.netty.handler.codec.http.HttpHeaders;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.xiaowu.behappy.netty.chatroom.config.AppConfiguration;
 import org.xiaowu.behappy.netty.chatroom.model.User;
 import org.xiaowu.behappy.netty.chatroom.service.LoginService;
@@ -23,6 +24,7 @@ import static org.xiaowu.behappy.netty.chatroom.constant.Common.*;
  * 监听连接事件
  * @author xiaowu
  */
+@Slf4j
 @RequiredArgsConstructor
 public class ConnectHandler implements ConnectListener {
 
@@ -32,6 +34,7 @@ public class ConnectHandler implements ConnectListener {
 
     @Override
     public void onConnect(SocketIOClient client) {
+        log.debug("client已连接: {}",client.getSessionId().toString());
         HttpHeaders httpHeaders = client.getHandshakeData().getHttpHeaders();
         String token = httpHeaders.get(TOKEN);
         User user = null;

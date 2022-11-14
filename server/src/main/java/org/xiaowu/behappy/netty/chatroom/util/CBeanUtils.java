@@ -29,12 +29,22 @@ public class CBeanUtils {
         return map;
     }
 
-    // 忽略空值
+    /**
+     * 忽略空值
+     * @param bean
+     * @return
+     * @param <T>
+     */
     public <T> Map<String, Object> beanToMapIgnoreNullValue(T bean) {
         return beanToMap(bean, true);
     }
 
-    // 不忽略空值
+    /**
+     * 不忽略空值
+     * @param bean
+     * @return
+     * @param <T>
+     */
     public <T> Map<String, Object> beanToMapNotIgnoreNullValue(T bean) {
         return beanToMap(bean, false);
     }

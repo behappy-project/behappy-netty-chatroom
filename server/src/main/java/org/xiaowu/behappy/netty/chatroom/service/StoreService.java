@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
+import org.springframework.util.CollectionUtils;
 import org.xiaowu.behappy.netty.chatroom.config.AppConfiguration;
 import org.xiaowu.behappy.netty.chatroom.constant.MessageType;
 import org.xiaowu.behappy.netty.chatroom.constant.StatusType;
@@ -19,6 +20,7 @@ import org.xiaowu.behappy.netty.chatroom.util.CBeanUtils;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -41,7 +43,7 @@ public class StoreService {
 
     @Async
     public void saveUser(User user, StatusType status) {
-        log.debug("保存user: {}", user);
+        log.debug("保存user: {}, StatusType: {}", user, status);
         if (status.equals(StatusType.LOGIN)) {
             Map<String, Object> map = CBeanUtils.beanToMapNotIgnoreNullValue(user);
             stringRedisTemplate.opsForHash().putAll(user.getId(), map);
@@ -71,7 +73,9 @@ public class StoreService {
     public List<Message> getMessages() {
         Set<String> set = stringRedisTemplate.opsForZSet().range(STORE_MESSAGE, 0, 100);
 
-        assert set != null;
+        if (CollectionUtils.isEmpty(set)) {
+            return Collections.emptyList();
+        }
         return set.stream().map(str -> JSONUtil.toBean(str, Message.class))
                 .collect(Collectors.toList());
     }

@@ -13,7 +13,7 @@ public interface Common {
     String USER_KEY = "user";
 
     /**
-     * redis store set message data key
+     * redis store save message data key
      */
     String STORE_MESSAGE = "message";
 }
