@@ -2,7 +2,6 @@ package org.xiaowu.behappy.netty.chatroom.service;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.crypto.SecureUtil;
-import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

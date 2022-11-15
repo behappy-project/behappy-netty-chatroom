@@ -1,53 +1,42 @@
-package org.xiaowu.behappy.netty.chatroom.handler;
+package org.xiaowu.behappy.netty.chatroom.config;
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketConfig;
-import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
-import com.corundumstudio.socketio.listener.ConnectListener;
-import com.corundumstudio.socketio.listener.DisconnectListener;
+import com.corundumstudio.socketio.annotation.OnConnect;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import org.xiaowu.behappy.netty.chatroom.config.AppConfiguration;
+import org.xiaowu.behappy.netty.chatroom.handler.ConnectHandler;
+import org.xiaowu.behappy.netty.chatroom.handler.DisconnectHandler;
+import org.xiaowu.behappy.netty.chatroom.handler.LoginHandler;
+import org.xiaowu.behappy.netty.chatroom.handler.MessageHandler;
 import org.xiaowu.behappy.netty.chatroom.model.Message;
 import org.xiaowu.behappy.netty.chatroom.model.User;
 import org.xiaowu.behappy.netty.chatroom.service.LoginService;
 import org.xiaowu.behappy.netty.chatroom.service.StoreService;
 
-import java.util.Collection;
-import java.util.UUID;
-
-import static org.xiaowu.behappy.netty.chatroom.constant.EventNam.*;
+import static org.xiaowu.behappy.netty.chatroom.constant.EventNam.LOGIN;
+import static org.xiaowu.behappy.netty.chatroom.constant.EventNam.MESSAGE;
 
 /**
- *
+ * SocketIo初始化
  * @author xiaowu
  */
-@Slf4j
 @Component
 @RequiredArgsConstructor
-public class SocketIO implements ApplicationListener<ContextRefreshedEvent> {
-
-    public static SocketIOServer server;
+public class SocketIoInitializer {
 
     private final AppConfiguration appConfiguration;
 
-    private final LoginService loginService;
-
-    private final StoreService storeService;
-
-    @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) {
-        initSocket();
-    }
-
-    @SneakyThrows
-    private void initSocket() {
+    @Bean
+    public SocketIOServer socketIOServer() {
         Configuration config = new Configuration();
         config.setHostname(appConfiguration.getHost());
         config.setPort(appConfiguration.getPort());
@@ -61,17 +50,7 @@ public class SocketIO implements ApplicationListener<ContextRefreshedEvent> {
         sockConfig.setReuseAddress(true);
 
         config.setSocketConfig(sockConfig);
-        server = new SocketIOServer(config);
-
-        server.addEventListener(LOGIN, User.class, new LoginHandler(loginService));
-        server.addEventListener(MESSAGE, Message.class, new MessageHandler(storeService));
-        server.addConnectListener(new ConnectHandler(appConfiguration,loginService));
-        server.addDisconnectListener(new DisconnectHandler(storeService));
-        server.startAsync().addListener(future -> {
-            log.debug("server port start on {}",appConfiguration.getPort());
-        });
-        // 当前线程阻塞
-        Thread.currentThread().join();
-        server.stop();
+        return new SocketIOServer(config);
     }
+
 }

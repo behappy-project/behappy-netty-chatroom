@@ -1,13 +1,15 @@
 package org.xiaowu.behappy.netty.chatroom.service;
 
-import com.corundumstudio.socketio.SocketIOClient;
+import com.corundumstudio.socketio.SocketIOServer;
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.xiaowu.behappy.netty.chatroom.constant.UserType;
-import org.xiaowu.behappy.netty.chatroom.handler.SocketIO;
 import org.xiaowu.behappy.netty.chatroom.model.User;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import static org.xiaowu.behappy.netty.chatroom.constant.Common.USER_KEY;
 
@@ -16,9 +18,12 @@ import static org.xiaowu.behappy.netty.chatroom.constant.Common.USER_KEY;
  * @author xiaowu
  */
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private List<User> users;
+
+    private final SocketIOServer socketIOServer;
 
     @PostConstruct
     void initDefaultUser() {
@@ -37,7 +42,7 @@ public class UserService {
 
     public List<User> getOnlineUsers() {
         // Returns the matching socket instances
-        SocketIO.server.getAllClients().forEach(socketIOClient -> {
+        socketIOServer.getAllClients().forEach(socketIOClient -> {
             User user = (User) socketIOClient.get(USER_KEY);
             if (Objects.nonNull(user)) {
                 users.add(user);

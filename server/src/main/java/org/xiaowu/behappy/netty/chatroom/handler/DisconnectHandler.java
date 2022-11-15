@@ -2,6 +2,7 @@ package org.xiaowu.behappy.netty.chatroom.handler;
 
 import cn.hutool.core.util.StrUtil;
 import com.corundumstudio.socketio.SocketIOClient;
+import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,8 @@ public class DisconnectHandler implements DisconnectListener {
 
     private final StoreService storeService;
 
+    private final SocketIOServer socketIOServer;
+
     @Override
     public void onDisconnect(SocketIOClient client) {
         log.debug("用户断开链接: {}", client.getSessionId().toString());
@@ -31,7 +34,7 @@ public class DisconnectHandler implements DisconnectListener {
         User user = (User) client.get(Common.USER_KEY);
         if (Objects.nonNull(user) && StrUtil.isNotBlank(user.getId())) {
             // 修改登录用户信息并通知所有在线用户
-            SocketIO.server.getBroadcastOperations().sendEvent(EventNam.SYSTEM, user, SystemType.LOGOUT);
+            socketIOServer.getBroadcastOperations().sendEvent(EventNam.SYSTEM, user, SystemType.LOGOUT);
             storeService.saveUser(user, StatusType.LOGOUT);
         }
     }

@@ -2,6 +2,7 @@ package org.xiaowu.behappy.netty.chatroom.handler;
 
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
+import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DataListener;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,8 @@ import org.xiaowu.behappy.netty.chatroom.service.StoreService;
 public class MessageHandler implements DataListener<Message> {
 
     private final StoreService storeService;
+    
+    private final SocketIOServer socketIOServer;
 
     @Override
     public void onData(SocketIOClient client, Message data, AckRequest ackSender) throws Exception {
@@ -29,7 +32,7 @@ public class MessageHandler implements DataListener<Message> {
         User user = (User) client.get(Common.USER_KEY);
         if (UserType.USER.getName().equals(data.getTo().getType())) {
             // 向所属room发消息
-            SocketIO.server.getRoomOperations(data.getTo().getRoomId())
+            socketIOServer.getRoomOperations(data.getTo().getRoomId())
                     .sendEvent(EventNam.MESSAGE,
                             user,
                             data.getTo(),
@@ -38,7 +41,7 @@ public class MessageHandler implements DataListener<Message> {
         }
         if (UserType.GROUP.getName().equals(data.getTo().getType())) {
             // 群发
-            SocketIO.server.getBroadcastOperations().sendEvent(EventNam.MESSAGE,
+            socketIOServer.getBroadcastOperations().sendEvent(EventNam.MESSAGE,
                     user,
                     data.getTo(),
                     data.getContent(),

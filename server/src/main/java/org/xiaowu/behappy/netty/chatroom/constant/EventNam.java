@@ -18,5 +18,7 @@ public interface EventNam {
 
     String DISCONNECT = "disconnect";
 
+    String CONNECT = "connect";
+
     String LOGIN = "login";
 }

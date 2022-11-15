@@ -3,7 +3,6 @@ package org.xiaowu.behappy.netty.chatroom.handler;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.DataListener;
-import io.netty.channel.ChannelHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.xiaowu.behappy.netty.chatroom.model.User;

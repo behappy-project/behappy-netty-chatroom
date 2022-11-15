@@ -2,26 +2,20 @@ package org.xiaowu.behappy.netty.chatroom.service;
 
 import cn.hutool.core.date.DateField;
 import cn.hutool.core.date.DateTime;
-import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.SecureUtil;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import cn.hutool.jwt.JWTPayload;
 import cn.hutool.jwt.JWTUtil;
 import com.corundumstudio.socketio.SocketIOClient;
+import com.corundumstudio.socketio.SocketIOServer;
 import io.netty.handler.codec.http.HttpHeaders;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cglib.beans.BeanMap;
 import org.springframework.stereotype.Service;
 import org.xiaowu.behappy.netty.chatroom.config.AppConfiguration;
 import org.xiaowu.behappy.netty.chatroom.constant.EventNam;
 import org.xiaowu.behappy.netty.chatroom.constant.StatusType;
 import org.xiaowu.behappy.netty.chatroom.constant.SystemType;
 import org.xiaowu.behappy.netty.chatroom.constant.UserType;
-import org.xiaowu.behappy.netty.chatroom.handler.SocketIO;
 import org.xiaowu.behappy.netty.chatroom.model.LoginSuccessData;
 import org.xiaowu.behappy.netty.chatroom.model.Message;
 import org.xiaowu.behappy.netty.chatroom.model.User;
@@ -29,9 +23,7 @@ import org.xiaowu.behappy.netty.chatroom.util.CBeanUtils;
 import org.xiaowu.behappy.netty.chatroom.util.IpUtils;
 
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import static org.xiaowu.behappy.netty.chatroom.constant.Common.USER_KEY;
@@ -50,6 +42,8 @@ public class LoginService {
     private final UserService userService;
 
     private final StoreService storeService;
+
+    private final SocketIOServer socketIOServer;
 
     public void login(User user, SocketIOClient client, boolean isReconnect) {
         String ip = StrUtil.replace(client.getHandshakeData().getAddress().getHostString(), "::ffff:", "");
@@ -100,7 +94,7 @@ public class LoginService {
         data.setToken(JWTUtil.createToken(map, appConfiguration.getTokenKey().getBytes(StandardCharsets.UTF_8)));
 
         // 通知有用户加入
-        SocketIO.server.getBroadcastOperations().sendEvent(EventNam.SYSTEM, user, SystemType.JOIN);
+        socketIOServer.getBroadcastOperations().sendEvent(EventNam.SYSTEM, user, SystemType.JOIN);
 
         List<User> onlineUsers = userService.getOnlineUsers();
         // 为当前client赋值user
