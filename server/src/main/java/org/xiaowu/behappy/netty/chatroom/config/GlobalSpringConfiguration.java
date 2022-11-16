@@ -11,6 +11,6 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @ComponentScan(basePackages = {"org.xiaowu.behappy"})
 @Import(cn.hutool.extra.spring.SpringUtil.class)
-public class GlobalSpringConfigure {
+public class GlobalSpringConfiguration {
 
 }

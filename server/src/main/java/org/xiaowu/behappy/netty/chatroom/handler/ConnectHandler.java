@@ -5,10 +5,12 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import cn.hutool.jwt.JWTUtil;
 import com.corundumstudio.socketio.SocketIOClient;
+import com.corundumstudio.socketio.annotation.OnConnect;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import io.netty.handler.codec.http.HttpHeaders;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.xiaowu.behappy.netty.chatroom.config.AppConfiguration;
 import org.xiaowu.behappy.netty.chatroom.constant.EventNam;
 import org.xiaowu.behappy.netty.chatroom.model.User;
@@ -24,14 +26,16 @@ import static org.xiaowu.behappy.netty.chatroom.constant.Common.TOKEN;
  * @author xiaowu
  */
 @Slf4j
+@Component
 @RequiredArgsConstructor
-public class ConnectHandler implements ConnectListener {
+public class ConnectHandler {
 
     private final AppConfiguration appConfiguration;
 
     private final LoginService loginService;
 
-    @Override
+
+    @OnConnect
     public void onConnect(SocketIOClient client) {
         log.debug("client已连接: {}",client.getSessionId().toString());
         HttpHeaders httpHeaders = client.getHandshakeData().getHttpHeaders();

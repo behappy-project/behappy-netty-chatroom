@@ -25,7 +25,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
  */
 @Configuration
 @EnableConfigurationProperties({RedisProperties.class})
-public class RedisAutoConfigure {
+public class RedisAutoConfiguration {
 
     @Bean
     public RedisSerializer<String> redisKeySerializer() {
