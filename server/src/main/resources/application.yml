@@ -9,6 +9,7 @@ spring:
       host: ${APP_REDIS_HOST:}
       password: ${APP_REDIS_PASS:}
       port: ${APP_REDIS_PORT:}
+      database: 8
       lettuce:
         pool:
           enabled: true
