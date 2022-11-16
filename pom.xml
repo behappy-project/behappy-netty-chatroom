@@ -17,7 +17,7 @@
         <java.version>17</java.version>
         <socketio.version>1.7.22</socketio.version>
         <hutool.version>5.8.9</hutool.version>
-        <common.pool.version>2.11.1</common.pool.version>
+        <redisson.version>3.18.0</redisson.version>
     </properties>
     <dependencies>
         <dependency>
@@ -61,13 +61,9 @@
             <version>${hutool.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
-            <version>${common.pool.version}</version>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+            <version>${redisson.version}</version>
         </dependency>
     </dependencies>
 

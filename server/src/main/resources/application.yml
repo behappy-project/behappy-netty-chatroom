@@ -6,6 +6,17 @@ chatroom:
 spring:
   data:
     redis:
-      host: ${APP_REDIS_HOST:114.132.226.171}
-      password: ${APP_REDIS_PASS:J*#36@us.tin}
-      port: ${APP_REDIS_PORT:9737}
+      host: ${APP_REDIS_HOST:}
+      password: ${APP_REDIS_PASS:}
+      port: ${APP_REDIS_PORT:}
+      lettuce:
+        pool:
+          enabled: true
+          # 连接池最大连接数（使用负值表示没有限制）
+          maxactive: 64
+          # 连接池中的最大空闲连接
+          maxidle: 64
+          # 连接池最大阻塞等待时间（使用负值表示没有限制）
+          maxwait: -1
+          # 连接池中的最小空闲连接
+          minidle: 1

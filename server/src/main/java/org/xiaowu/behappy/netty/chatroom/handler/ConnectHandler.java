@@ -17,7 +17,10 @@ import org.xiaowu.behappy.netty.chatroom.model.User;
 import org.xiaowu.behappy.netty.chatroom.service.LoginService;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 import static org.xiaowu.behappy.netty.chatroom.constant.Common.TOKEN;
 
@@ -37,7 +40,8 @@ public class ConnectHandler {
 
     @OnConnect
     public void onConnect(SocketIOClient client) {
-        log.debug("client已连接: {}",client.getSessionId().toString());
+        Map<String, List<String>> urlParams = client.getHandshakeData().getUrlParams();
+        log.info("客户端：{} 已连接，urlParams:{}", client.getSessionId(), urlParams);
         HttpHeaders httpHeaders = client.getHandshakeData().getHttpHeaders();
         String token = httpHeaders.get(TOKEN);
         User user = null;
@@ -50,6 +54,5 @@ public class ConnectHandler {
         if (Objects.nonNull(user) && StrUtil.isNotBlank(user.getId())) {
             loginService.login(user, client, true);
         }
-        client.sendEvent(EventNam.CONNECT);
     }
 }

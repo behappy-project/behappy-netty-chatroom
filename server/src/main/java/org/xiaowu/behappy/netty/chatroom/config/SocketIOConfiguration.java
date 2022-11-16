@@ -5,7 +5,9 @@ import com.corundumstudio.socketio.SocketConfig;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.Transport;
 import com.corundumstudio.socketio.annotation.SpringAnnotationScanner;
+import com.corundumstudio.socketio.store.RedissonStoreFactory;
 import lombok.RequiredArgsConstructor;
+import org.redisson.api.RedissonClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +20,8 @@ import org.springframework.stereotype.Component;
 public class SocketIOConfiguration {
 
     private final AppConfiguration appConfiguration;
+
+    private final RedissonClient redissonClient;
 
     @Bean
     public SocketIOServer socketIOServer() {
@@ -36,6 +40,7 @@ public class SocketIOConfiguration {
         sockConfig.setReuseAddress(true);
 
         config.setSocketConfig(sockConfig);
+        config.setStoreFactory(new RedissonStoreFactory(redissonClient));
         return new SocketIOServer(config);
     }
 
