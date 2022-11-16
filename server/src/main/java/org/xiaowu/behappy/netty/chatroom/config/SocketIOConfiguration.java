@@ -34,13 +34,14 @@ public class SocketIOConfiguration {
         config.setMaxHttpContentLength(1024 * 1024);
         config.setAllowCustomRequests(true);
         config.setTransports(Transport.WEBSOCKET, Transport.POLLING);
+        config.setStoreFactory(new RedissonStoreFactory(redissonClient));
+        config.setAllowHeaders("*");
 
         SocketConfig sockConfig = new SocketConfig();
         // 服务端ChannelOption.SO_REUSEADDR, 地址重用, 应对address is in use
         sockConfig.setReuseAddress(true);
 
         config.setSocketConfig(sockConfig);
-        config.setStoreFactory(new RedissonStoreFactory(redissonClient));
         return new SocketIOServer(config);
     }
 

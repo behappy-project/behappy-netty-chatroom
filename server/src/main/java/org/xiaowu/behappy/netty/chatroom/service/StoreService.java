@@ -5,6 +5,7 @@ import cn.hutool.crypto.SecureUtil;
 import cn.hutool.json.JSONUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,8 @@ public class StoreService {
 
     private final StringRedisTemplate stringRedisTemplate;
 
+    private final RedisTemplate<String,Object> redisTemplate;
+
     private final AppConfiguration appConfiguration;
 
     @Async
@@ -45,7 +48,7 @@ public class StoreService {
         log.debug("保存user: {}, StatusType: {}", user, status);
         if (status.equals(StatusType.LOGIN)) {
             Map<String, Object> map = CBeanUtils.beanToMapNotIgnoreNullValue(user);
-            stringRedisTemplate.opsForHash().putAll(user.getId(), map);
+            redisTemplate.opsForHash().putAll(user.getId(), map);
         }
     }
 

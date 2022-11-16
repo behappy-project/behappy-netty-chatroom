@@ -5,6 +5,8 @@ package org.xiaowu.behappy.netty.chatroom.model;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * Auto-generated: 2022-11-13 10:29:23
  *
@@ -12,8 +14,9 @@ import lombok.Data;
  * @website http://www.json.cn/java2pojo/
  */
 @Data
-public class Message {
+public class Message implements Serializable {
 
+    private static final long serialVersionUID = -6127718690044821421L;
     private User from;
 
     private User to;

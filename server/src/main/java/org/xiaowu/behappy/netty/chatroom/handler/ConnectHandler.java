@@ -4,7 +4,9 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import cn.hutool.jwt.JWTUtil;
+import com.corundumstudio.socketio.AckCallback;
 import com.corundumstudio.socketio.SocketIOClient;
+import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.annotation.OnConnect;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import io.netty.handler.codec.http.HttpHeaders;
@@ -36,7 +38,6 @@ public class ConnectHandler {
     private final AppConfiguration appConfiguration;
 
     private final LoginService loginService;
-
 
     @OnConnect
     public void onConnect(SocketIOClient client) {

@@ -31,8 +31,5 @@ public class BehappyNettyChatroomApplication implements CommandLineRunner {
         socketIOServer.startAsync().addListener(future -> {
             log.debug("server port start on {}", appConfiguration.getPort());
         });
-        // 当前线程阻塞
-        Thread.currentThread().join();
-        socketIOServer.stop();
     }
 }
