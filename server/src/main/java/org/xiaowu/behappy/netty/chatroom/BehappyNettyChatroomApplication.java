@@ -7,8 +7,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.xiaowu.behappy.netty.chatroom.config.AppConfiguration;
-import org.xiaowu.behappy.netty.chatroom.service.LoginService;
-import org.xiaowu.behappy.netty.chatroom.service.StoreService;
 
 /**
  * @author 94391

@@ -4,7 +4,6 @@ import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.annotation.OnEvent;
-import com.corundumstudio.socketio.listener.DataListener;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -33,6 +32,7 @@ public class MessageHandler {
     public void onData(SocketIOClient client, Message data, AckRequest ackSender) throws Exception {
         // 判断是指定发送方发送消息,还是群发
         User user = (User) client.get(Common.USER_KEY);
+        // todo
         if (UserType.USER.getName().equals(data.getTo().getType())) {
             // 向所属room发消息
             socketIOServer.getRoomOperations(data.getTo().getRoomId())

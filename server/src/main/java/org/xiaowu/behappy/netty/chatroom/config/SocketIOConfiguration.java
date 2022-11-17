@@ -5,9 +5,8 @@ import com.corundumstudio.socketio.SocketConfig;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.Transport;
 import com.corundumstudio.socketio.annotation.SpringAnnotationScanner;
-import com.corundumstudio.socketio.store.RedissonStoreFactory;
+import com.corundumstudio.socketio.store.MemoryStoreFactory;
 import lombok.RequiredArgsConstructor;
-import org.redisson.api.RedissonClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
@@ -21,8 +20,6 @@ public class SocketIOConfiguration {
 
     private final AppConfiguration appConfiguration;
 
-    private final RedissonClient redissonClient;
-
     @Bean
     public SocketIOServer socketIOServer() {
         Configuration config = new Configuration();
@@ -34,7 +31,7 @@ public class SocketIOConfiguration {
         config.setMaxHttpContentLength(1024 * 1024);
         config.setAllowCustomRequests(true);
         config.setTransports(Transport.WEBSOCKET, Transport.POLLING);
-        config.setStoreFactory(new RedissonStoreFactory(redissonClient));
+        config.setStoreFactory(new MemoryStoreFactory());
         config.setAllowHeaders("*");
 
         SocketConfig sockConfig = new SocketConfig();
