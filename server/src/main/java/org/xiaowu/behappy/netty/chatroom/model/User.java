@@ -2,6 +2,7 @@ package org.xiaowu.behappy.netty.chatroom.model;
 
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -11,10 +12,13 @@ import java.io.Serializable;
 @Data
 public class User implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 2594108297042636782L;
     private String id;
 
     private String name;
+
+    private String password;
 
     /**
      * 登录时间戳

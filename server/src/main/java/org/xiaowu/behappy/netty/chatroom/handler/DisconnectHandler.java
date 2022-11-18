@@ -36,8 +36,8 @@ public class DisconnectHandler {
         User user = (User) client.get(Common.USER_KEY);
         if (Objects.nonNull(user) && StrUtil.isNotBlank(user.getId())) {
             // 修改登录用户信息并通知所有在线用户
-            socketIOServer.getBroadcastOperations().sendEvent(EventNam.SYSTEM, user, SystemType.LOGOUT);
-            storeService.saveUser(user, StatusType.LOGOUT);
+            socketIOServer.getBroadcastOperations().sendEvent(EventNam.SYSTEM, user, SystemType.LOGOUT.getName());
+            storeService.saveOrUpdateUser(user, StatusType.LOGOUT);
         }
     }
 }

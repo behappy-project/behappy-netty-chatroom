@@ -11,7 +11,6 @@ import org.xiaowu.behappy.netty.chatroom.constant.Common;
 import org.xiaowu.behappy.netty.chatroom.constant.EventNam;
 import org.xiaowu.behappy.netty.chatroom.constant.MessageType;
 import org.xiaowu.behappy.netty.chatroom.constant.UserType;
-import org.xiaowu.behappy.netty.chatroom.model.Message;
 import org.xiaowu.behappy.netty.chatroom.model.User;
 import org.xiaowu.behappy.netty.chatroom.service.StoreService;
 
@@ -29,27 +28,30 @@ public class MessageHandler {
     private final SocketIOServer socketIOServer;
 
     @OnEvent(EventNam.MESSAGE)
-    public void onData(SocketIOClient client, Message data, AckRequest ackSender) throws Exception {
+    public void onData(SocketIOClient client, User from,User to, String content, String type, AckRequest ackSender) throws Exception {
         // 判断是指定发送方发送消息,还是群发
         User user = (User) client.get(Common.USER_KEY);
-        // todo
-        if (UserType.USER.getName().equals(data.getTo().getType())) {
+        if (UserType.USER.getName().equals(to.getType())) {
             // 向所属room发消息
-            socketIOServer.getRoomOperations(data.getTo().getRoomId())
+            socketIOServer.getRoomOperations(to.getRoomId())
                     .sendEvent(EventNam.MESSAGE,
+                            /*排除自己*/
+                            client,
                             user,
-                            data.getTo(),
-                            data.getContent(),
-                            data.getType());
+                            to,
+                            content,
+                            type);
         }
-        if (UserType.GROUP.getName().equals(data.getTo().getType())) {
+        if (UserType.GROUP.getName().equals(to.getType())) {
             // 群发
             socketIOServer.getBroadcastOperations().sendEvent(EventNam.MESSAGE,
+                    /*排除自己*/
+                    client,
                     user,
-                    data.getTo(),
-                    data.getContent(),
-                    data.getType());
-            storeService.saveMessage(data.getFrom(), data.getTo(), data.getContent(), MessageType.valueOf(data.getType()));
+                    to,
+                    content,
+                    type);
+            storeService.saveGroupMessage(from, to, content, MessageType.getTypeByName(type));
         }
     }
 }

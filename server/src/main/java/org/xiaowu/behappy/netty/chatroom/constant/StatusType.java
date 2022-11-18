@@ -11,7 +11,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum StatusType {
 
-    LOGIN("login"),LOGOUT("logout");
+    LOGIN("login"),LOGOUT("logout"),REGISTER("register");
 
     private final String name;
 }

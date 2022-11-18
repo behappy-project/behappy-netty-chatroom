@@ -39,6 +39,7 @@ public class SocketIOConfiguration {
         sockConfig.setReuseAddress(true);
 
         config.setSocketConfig(sockConfig);
+
         return new SocketIOServer(config);
     }
 

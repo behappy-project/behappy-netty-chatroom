@@ -1,6 +1,6 @@
 <template>
   <div class="chat-app-warp">
-    <UserLogin v-if="!loginUser.id" @login="userLogin" :type="deviceType" v-drag></UserLogin>
+    <UserLogin v-if="!loginUser.id" @login="userLogin" @register="userRegister" :type="deviceType" v-drag></UserLogin>
     <div class="app-main-panel ui-clear" v-drag v-if="loginUser.id&&deviceType==='pc'">
       <div class="app-aside-panel">
         <div class="app-user-avatar">
@@ -362,11 +362,11 @@
           isVoice:true
         },
         about:{
-          version:"v1.0",
+          version:"v1.1.0",
           license:"MIT",
-          author:"cleverqin",
-          email:"705597001@qq.com",
-          github:"https://github.com/cleverqin/node-websocket-Chatroom"
+          author:"小五",
+          email:"943915349@gmail.com",
+          github:"https://github.com/behappy-project/behappy-netty-chatroom"
         },
         loginUser:{},
         token:"",
@@ -408,6 +408,8 @@
           },16)
         }
         const {from,to}=message;
+        console.log('from ',from)
+        console.log('to ',to)
         if(this.setting.isVoice&&this.curSession.id!==from.id&&from.id!==this.loginUser.id&&to.type==='user'){
           this.playAudio();
         }
@@ -423,6 +425,7 @@
         };
         this.addSessionMessage(message,session.id);
         if(this.socket){
+          console.log('message - ',message);
           this.socket.emit("message",message.from,message.to,message.content,message.type)
         }
       },
@@ -469,6 +472,14 @@
           this.socket.emit('login',user)
         }
       },
+      userRegister(user){
+        if (!this.socket){
+          user.time=new Date().getTime()
+          this.loginUser=user;
+        }else {
+          this.socket.emit('register',user)
+        }
+      },
       playAudio() {
         const $audio=this.$refs['audio'];
         if($audio){
@@ -505,6 +516,8 @@
         })
         _this.socket.on("loginSuccess",_this.loginSuccess);
         _this.socket.on("loginFail",_this.loginFail);
+        _this.socket.on("registerSuccess",_this.registerSuccess);
+        _this.socket.on("registerFail",_this.registerFail);
         _this.socket.on("message",_this.listenerMessage);
         _this.socket.on("system",_this.listenerSystem);
         _this.socket.on("history-message",_this.listenerHistoryMessage);
@@ -523,12 +536,20 @@
         }
       },
       loginSuccess(data,users){
+        console.log(data)
+        console.log(users)
         const _this=this;
         _this.loginUser=data.user;
         _this.token=data.token;
         _this.users=users;
       },
       loginFail(message){
+        Message.error(message);
+      },
+      registerSuccess(message){
+        Message.success(message);
+      },
+      registerFail(message){
         Message.error(message);
       },
       listenerMessage(from,to,message,type){
@@ -554,6 +575,7 @@
         this.addSessionMessage(MESSAGE,to.type==='group'?to.id:from.id)
       },
       listenerSystem(user,type){
+        console.log("listenerSystem - user ",user, type)
         const _this=this;
         switch (type) {
           case "join":

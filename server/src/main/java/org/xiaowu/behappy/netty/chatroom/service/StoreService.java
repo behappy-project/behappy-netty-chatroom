@@ -1,6 +1,9 @@
 package org.xiaowu.behappy.netty.chatroom.service;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.json.JSONUtil;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +29,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.xiaowu.behappy.netty.chatroom.constant.Common.STORE_MESSAGE;
+import static org.xiaowu.behappy.netty.chatroom.constant.Common.GROUP_001_MESSAGE;
 
 /**
  * store data
@@ -44,16 +47,14 @@ public class StoreService {
     private final AppConfiguration appConfiguration;
 
     @Async
-    public void saveUser(User user, StatusType status) {
-        log.debug("保存user: {}, StatusType: {}", user, status);
-        if (status.equals(StatusType.LOGIN)) {
-            Map<String, Object> map = CBeanUtils.beanToMapNotIgnoreNullValue(user);
-            redisTemplate.opsForHash().putAll(user.getId(), map);
-        }
+    public void saveOrUpdateUser(User user, StatusType status) {
+        log.debug("保存/更新user: {}, StatusType: {}", user, status);
+        Map<String, Object> map = CBeanUtils.beanToMapNotIgnoreNullValue(user);
+        redisTemplate.opsForHash().putAll(user.getName(), map);
     }
 
     @Async
-    public void saveMessage(User from, User to, String message/*当是图片的时候,这里传的是base64*/, MessageType type) {
+    public void saveGroupMessage(User from, User to, String message/*当是图片的时候,这里传的是base64*/, MessageType type) {
         if (MessageType.IMAGE.equals(type)) {
             String base64Data = message.replaceAll("/^data:image\\/\\w+;base64,/", "");
             byte[] dataBuffer = Base64Utils.encode(base64Data.getBytes(StandardCharsets.UTF_8));
@@ -69,16 +70,24 @@ public class StoreService {
         storeMsg.setContent(message);
 
         // 之后按时间排序获取
-        stringRedisTemplate.opsForZSet().add(STORE_MESSAGE, JSONUtil.toJsonStr(storeMsg), storeMsg.getTime());
+        stringRedisTemplate.opsForZSet().add(GROUP_001_MESSAGE, JSONUtil.toJsonStr(storeMsg), storeMsg.getTime());
     }
 
-    public List<Message> getMessages() {
-        Set<String> set = stringRedisTemplate.opsForZSet().range(STORE_MESSAGE, 0, 100);
+    public List<Message> getGroupMessages() {
+        Set<String> set = stringRedisTemplate.opsForZSet().range(GROUP_001_MESSAGE, 0, 100);
 
         if (CollectionUtils.isEmpty(set)) {
             return Collections.emptyList();
         }
         return set.stream().map(str -> JSONUtil.toBean(str, Message.class))
                 .collect(Collectors.toList());
+    }
+
+    public User getUserByName(String name){
+        Map<Object, Object> entries = redisTemplate.opsForHash().entries(name);
+        if (MapUtil.isEmpty(entries)){
+            return null;
+        }
+        return BeanUtil.mapToBean(entries, User.class, true, CopyOptions.create());
     }
 }

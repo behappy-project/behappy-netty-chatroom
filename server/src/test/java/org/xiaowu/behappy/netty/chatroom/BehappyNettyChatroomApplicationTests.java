@@ -1,5 +1,7 @@
 package org.xiaowu.behappy.netty.chatroom;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.date.DateField;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.json.JSONObject;
@@ -7,14 +9,43 @@ import cn.hutool.json.JSONUtil;
 import cn.hutool.jwt.JWTPayload;
 import cn.hutool.jwt.JWTUtil;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.connection.DataType;
+import org.springframework.data.redis.core.Cursor;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ScanOptions;
 import org.xiaowu.behappy.netty.chatroom.model.User;
+import org.xiaowu.behappy.netty.chatroom.util.CBeanUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-//@SpringBootTest
+@SpringBootTest
 class BehappyNettyChatroomApplicationTests {
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
+
+    @Test
+    void testRedis() {
+        //User user = new User();
+        //user.setId("test1");
+        //user.setName("test1");
+        //Map<String, Object> map = CBeanUtils.beanToMapNotIgnoreNullValue(user);
+        //User user2 = new User();
+        //user2.setId("test2");
+        //user2.setName("test2");
+        //Map<String, Object> map2 = CBeanUtils.beanToMapNotIgnoreNullValue(user2);
+        //redisTemplate.opsForHash().putAll(user.getId(), map);
+        //redisTemplate.opsForHash().putAll(user2.getId(), map2);
+
+        Map<Object, Object> entries = redisTemplate.opsForHash().entries("test1");
+        User user = BeanUtil.mapToBean(entries, User.class, true, CopyOptions.create());
+        System.out.println(user);
+    }
 
     @Test
     void contextLoads() {
@@ -27,7 +58,7 @@ class BehappyNettyChatroomApplicationTests {
         map.put(JWTPayload.EXPIRES_AT, dateTime);
         //生效时间
         map.put(JWTPayload.NOT_BEFORE, now);
-        map.put("name","123");
+        map.put("name", "123");
 
         String token = JWTUtil.createToken(map, "123".getBytes(StandardCharsets.UTF_8));
         System.out.println(token);
