@@ -4,8 +4,8 @@ import cn.hutool.core.util.StrUtil;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import io.netty.handler.codec.http.HttpHeaders;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.xiaowu.behappy.netty.chatroom.constant.Common;
 import org.xiaowu.behappy.netty.chatroom.constant.UserType;
@@ -22,6 +22,7 @@ import static org.xiaowu.behappy.netty.chatroom.constant.Common.USER_KEY;
  *
  * @author xiaowu
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -57,6 +58,7 @@ public class UserService {
                 users.add(user);
             }
         });
+        log.debug("OnlineUsers: {}",users);
         return users;
     }
 

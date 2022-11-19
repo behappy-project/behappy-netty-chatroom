@@ -37,9 +37,9 @@ public class ConnectHandler {
     @OnConnect
     public void onConnect(SocketIOClient client) {
         Map<String, List<String>> urlParams = client.getHandshakeData().getUrlParams();
-        log.info("客户端：{} 已连接，urlParams:{}", client.getSessionId(), urlParams);
         HttpHeaders httpHeaders = client.getHandshakeData().getHttpHeaders();
         String token = httpHeaders.get(TOKEN);
+        log.info("客户端：{} 已连接, token: {}, urlParams:{}", client.getSessionId(), token, urlParams);
         User user = null;
         if (StrUtil.isNotBlank(token) && JWTUtil.verify(token, appConfiguration.getTokenKey().getBytes(StandardCharsets.UTF_8))) {
             JSONObject payloads = JWTUtil.parseToken(token).getPayloads();

@@ -14,6 +14,8 @@ import org.xiaowu.behappy.netty.chatroom.constant.UserType;
 import org.xiaowu.behappy.netty.chatroom.model.User;
 import org.xiaowu.behappy.netty.chatroom.service.StoreService;
 
+import java.util.UUID;
+
 /**
  * 监听接收消息
  * @author xiaowu
@@ -33,14 +35,14 @@ public class MessageHandler {
         User user = (User) client.get(Common.USER_KEY);
         if (UserType.USER.getName().equals(to.getType())) {
             // 向所属room发消息
-            socketIOServer.getRoomOperations(to.getRoomId())
-                    .sendEvent(EventNam.MESSAGE,
-                            /*排除自己*/
-                            client,
-                            user,
-                            to,
-                            content,
-                            type);
+            SocketIOClient receiverClient = socketIOServer.getClient(UUID.fromString(to.getRoomId()));
+            if (receiverClient != null && receiverClient.isChannelOpen()) {
+                receiverClient.sendEvent(EventNam.MESSAGE,
+                        user,
+                        to,
+                        content,
+                        type);
+            }
         }
         if (UserType.GROUP.getName().equals(to.getType())) {
             // 群发

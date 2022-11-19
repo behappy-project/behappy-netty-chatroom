@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.0-RC2</version>
+        <version>2.7.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.xiaowu</groupId>
@@ -62,12 +62,13 @@
             <version>${hutool.version}</version>
         </dependency>
         <!--springboot3 todo-->
-        <!--<dependency>
+        <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson-spring-boot-starter</artifactId>
             <version>${redisson.version}</version>
-        </dependency>-->
-        <dependency>
+        </dependency>
+        <!--springboot3 todo-->
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
@@ -75,7 +76,7 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
             <version>${common.pool.version}</version>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
     <build>

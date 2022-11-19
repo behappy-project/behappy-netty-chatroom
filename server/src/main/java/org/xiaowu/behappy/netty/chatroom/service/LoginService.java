@@ -55,6 +55,10 @@ public class LoginService {
                 log.error("登录失败,账户'{}'不存在", user.getName());
                 client.sendEvent(EventNam.LOGIN_FAIL,"登录失败,账户不存在!");
                 return;
+            }else if (!dbUser.getPassword().equals(user.getPassword())){
+                log.error("登录失败,账户'{}'密码不正确", user.getName());
+                client.sendEvent(EventNam.LOGIN_FAIL,"登录失败,用户名/密码不正确!");
+                return;
             }
             loginSuccess(user, client);
             // saveOrUpdate user

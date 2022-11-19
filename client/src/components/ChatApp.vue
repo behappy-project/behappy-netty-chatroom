@@ -282,7 +282,7 @@
   import SessionPanel from "./SessionPanel";
   import {getDeviceType} from "./emoji";
   import Message from "./Message";
-  import { Manager } from 'socket.io-client';
+  import io from 'socket.io-client';
   import {friendlyTime,formatTime} from './filters'
   import { BELL_URL } from "./config";
   export default {
@@ -488,8 +488,17 @@
       },
       initSocket(){
         let _this=this;
-        const manager = new Manager(this.socketURL);
-        const socket = manager.socket("/");
+        _this.token = sessionStorage.getItem("behappy-token")
+        const socket = io("",{
+          transports: ['polling', 'websocket'],
+          transportOptions: {
+            polling: {
+              extraHeaders: {
+                'token': _this.token || ''
+              }
+            }
+          }
+        });
         _this.socket=socket;
         _this.socket.on("error",()=>{
           console.log("出错了！！")
@@ -498,16 +507,13 @@
           this.isConnect=false;
           console.log(reason+ ' - disconnect');
         })
-        _this.socket.io.on("reconnect_attempt",(attempt)=>{
+        _this.socket.on("reconnect_attempt",(attempt)=>{
           console.info("重新尝试链接！！",attempt)
-          _this.socket.io.opts.extraHeaders={
-            token:_this.token
-          }
         });
-        _this.socket.io.on("reconnect_failed",()=>{
+        _this.socket.on("reconnect_failed",()=>{
           console.warn('重新链接失败！')
         });
-        _this.socket.io.on("reconnect",()=>{
+        _this.socket.on("reconnect",()=>{
           console.info('重新链接成功！')
         });
         _this.socket.on("connect",(data)=>{
@@ -536,12 +542,11 @@
         }
       },
       loginSuccess(data,users){
-        console.log(data)
-        console.log(users)
         const _this=this;
         _this.loginUser=data.user;
         _this.token=data.token;
         _this.users=users;
+        sessionStorage.setItem("behappy-token", data.token)
       },
       loginFail(message){
         Message.error(message);
