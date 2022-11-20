@@ -14,6 +14,8 @@ public interface EventNam {
 
     String LOGIN_FAIL = "loginFail";
 
+    String SERVER_ERR = "serverErr";
+
     String LOGIN_SUCCESS = "loginSuccess";
 
     String MESSAGE = "message";

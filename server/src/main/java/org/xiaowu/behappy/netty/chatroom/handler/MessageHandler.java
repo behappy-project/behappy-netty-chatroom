@@ -34,7 +34,7 @@ public class MessageHandler {
         // 判断是指定发送方发送消息,还是群发
         User user = (User) client.get(Common.USER_KEY);
         if (UserType.USER.getName().equals(to.getType())) {
-            // 向所属room发消息
+            // 向所属用户发消息
             SocketIOClient receiverClient = socketIOServer.getClient(UUID.fromString(to.getRoomId()));
             if (receiverClient != null && receiverClient.isChannelOpen()) {
                 receiverClient.sendEvent(EventNam.MESSAGE,

@@ -125,14 +125,6 @@
                 <span class="ui-label">仓库：</span>
                 <a class="ui-link" :href="about.github" target="_blank">GitHub</a>
               </li>
-              <li>
-                <a class="ui-link" :href="about.github" target="_blank">
-                  <img src="https://img.shields.io/github/stars/cleverqin/node-websocket-Chatroom?label=Star&style=flat&logo=github" alt="">
-                </a>
-                <a class="ui-link" :href="about.github" target="_blank">
-                  <img src="https://img.shields.io/github/forks/cleverqin/node-websocket-Chatroom?label=Fork&style=flat&logo=github" alt="">
-                </a>
-              </li>
             </ul>
           </div>
         </div>
@@ -225,14 +217,6 @@
             <li>
               <span class="ui-label">仓库：</span>
               <a class="ui-link" :href="about.github" target="_blank">GitHub</a>
-            </li>
-            <li>
-              <a class="ui-link" :href="about.github" target="_blank">
-                <img src="https://img.shields.io/github/stars/cleverqin/node-websocket-Chatroom?label=Star&style=flat&logo=github" alt="">
-              </a>
-              <a class="ui-link" :href="about.github" target="_blank">
-                <img src="https://img.shields.io/github/forks/cleverqin/node-websocket-Chatroom?label=Fork&style=flat&logo=github" alt="">
-              </a>
             </li>
           </ul>
         </div>
@@ -408,8 +392,6 @@
           },16)
         }
         const {from,to}=message;
-        console.log('from ',from)
-        console.log('to ',to)
         if(this.setting.isVoice&&this.curSession.id!==from.id&&from.id!==this.loginUser.id&&to.type==='user'){
           this.playAudio();
         }
@@ -425,7 +407,6 @@
         };
         this.addSessionMessage(message,session.id);
         if(this.socket){
-          console.log('message - ',message);
           this.socket.emit("message",message.from,message.to,message.content,message.type)
         }
       },
@@ -489,7 +470,7 @@
       initSocket(){
         let _this=this;
         _this.token = sessionStorage.getItem("behappy-token")
-        const socket = io("",{
+        const socket = io(this.socketURL,{
           transports: ['polling', 'websocket'],
           transportOptions: {
             polling: {
@@ -501,7 +482,11 @@
         });
         _this.socket=socket;
         _this.socket.on("error",()=>{
-          console.log("出错了！！")
+          console.log("发生异常...")
+        })
+        _this.socket.on("serverErr",(msg)=>{
+          this.loginUser = {}
+          console.log("链接异常...",msg)
         })
         _this.socket.on("disconnect",(reason)=>{
           this.isConnect=false;
@@ -580,7 +565,6 @@
         this.addSessionMessage(MESSAGE,to.type==='group'?to.id:from.id)
       },
       listenerSystem(user,type){
-        console.log("listenerSystem - user ",user, type)
         const _this=this;
         switch (type) {
           case "join":

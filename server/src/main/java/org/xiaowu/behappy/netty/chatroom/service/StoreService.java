@@ -2,9 +2,7 @@ package org.xiaowu.behappy.netty.chatroom.service;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
-import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.crypto.SecureUtil;
 import cn.hutool.json.JSONUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,17 +10,15 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Base64Utils;
 import org.springframework.util.CollectionUtils;
-import org.xiaowu.behappy.netty.chatroom.config.AppConfiguration;
 import org.xiaowu.behappy.netty.chatroom.constant.MessageType;
 import org.xiaowu.behappy.netty.chatroom.constant.StatusType;
 import org.xiaowu.behappy.netty.chatroom.model.Message;
 import org.xiaowu.behappy.netty.chatroom.model.User;
 import org.xiaowu.behappy.netty.chatroom.util.CBeanUtils;
+import org.xiaowu.behappy.netty.chatroom.util.CFileUtils;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +40,7 @@ public class StoreService {
 
     private final RedisTemplate<String,Object> redisTemplate;
 
-    private final AppConfiguration appConfiguration;
+    private final FileUploadService fileUploadService;
 
     @Async
     public void saveOrUpdateUser(User user, StatusType status) {
@@ -54,13 +50,10 @@ public class StoreService {
     }
 
     @Async
-    public void saveGroupMessage(User from, User to, String message/*当是图片的时候,这里传的是base64*/, MessageType type) {
+    public void saveGroupMessage(User from, User to, String message/*当是图片的时候,这里传的是base64*/, MessageType type) throws Exception {
         if (MessageType.IMAGE.equals(type)) {
-            String base64Data = message.replaceAll("/^data:image\\/\\w+;base64,/", "");
-            byte[] dataBuffer = Base64Utils.encode(base64Data.getBytes(StandardCharsets.UTF_8));
-            String filename = SecureUtil.md5(new String(dataBuffer, StandardCharsets.UTF_8));
-            FileUtil.writeBytes(dataBuffer, String.format(appConfiguration.getImagePath() + File.separator + "%s.png", filename));
-            message = String.format("/assets/images/%s.png", filename);
+            File file = CFileUtils.base64ToFile(message);
+            message = fileUploadService.upload(file);
         }
         Message storeMsg = new Message();
         storeMsg.setFrom(from);

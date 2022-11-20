@@ -63,8 +63,6 @@ public class LoginService {
             loginSuccess(user, client);
             // saveOrUpdate user
             storeService.saveOrUpdateUser(user, StatusType.LOGIN);
-            List<Message> messages = storeService.getGroupMessages();
-            client.sendEvent(EventNam.HISTORY_MESSAGE, Common.GROUP_001_CHANNEL, messages);
         }
     }
 
@@ -73,12 +71,12 @@ public class LoginService {
         data.setUser(user);
 
         DateTime now = DateTime.now();
-        DateTime dateTime = now.offsetNew(DateField.DAY_OF_YEAR, 1);
+        DateTime overdue = now.offsetNew(DateField.DAY_OF_YEAR, 1);
         Map<String, Object> map = CBeanUtils.beanToMapNotIgnoreNullValue(user);
         //签发时间
         map.put(JWTPayload.ISSUED_AT, now);
         //过期时间
-        map.put(JWTPayload.EXPIRES_AT, dateTime);
+        map.put(JWTPayload.EXPIRES_AT, overdue);
         //生效时间
         map.put(JWTPayload.NOT_BEFORE, now);
 
@@ -92,5 +90,8 @@ public class LoginService {
         client.set(USER_KEY, user);
         // 发送login_success事件
         client.sendEvent(EventNam.LOGIN_SUCCESS, data, onlineUsers);
+        // 群group1消息
+        List<Message> messages = storeService.getGroupMessages();
+        client.sendEvent(EventNam.HISTORY_MESSAGE, Common.GROUP_001_CHANNEL, messages);
     }
 }
