@@ -21,5 +21,5 @@ ARG JAR_FILE=/user/src/app/target/*.jar
 ENV JAVA_OPTS="-Xms128m -Xmx256m -Dfile.encoding=UTF-8 -Djava.security.egd=file:/dev/./urandom" \
     NODE_ENV="production"
 COPY --from=build ${JAR_FILE} app.jar
-COPY --from=build /user/src/app/dist dist
+COPY --from=build /user/src/app/client/dist dist
 CMD service nginx start && java ${JAVA_OPTS} -jar app.jar
