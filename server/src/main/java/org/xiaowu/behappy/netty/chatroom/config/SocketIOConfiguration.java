@@ -1,8 +1,10 @@
 package org.xiaowu.behappy.netty.chatroom.config;
 
-import com.corundumstudio.socketio.*;
+import com.corundumstudio.socketio.Configuration;
+import com.corundumstudio.socketio.SocketConfig;
+import com.corundumstudio.socketio.SocketIOServer;
+import com.corundumstudio.socketio.Transport;
 import com.corundumstudio.socketio.annotation.SpringAnnotationScanner;
-import com.corundumstudio.socketio.store.MemoryStoreFactory;
 import com.corundumstudio.socketio.store.RedissonStoreFactory;
 import lombok.RequiredArgsConstructor;
 import org.redisson.api.RedissonClient;

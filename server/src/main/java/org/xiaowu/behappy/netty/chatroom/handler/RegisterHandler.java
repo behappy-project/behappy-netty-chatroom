@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.xiaowu.behappy.netty.chatroom.constant.EventNam;
 import org.xiaowu.behappy.netty.chatroom.model.User;
-import org.xiaowu.behappy.netty.chatroom.service.LoginService;
 import org.xiaowu.behappy.netty.chatroom.service.RegisterService;
 
 /**

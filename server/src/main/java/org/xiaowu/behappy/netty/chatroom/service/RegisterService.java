@@ -4,7 +4,6 @@ import com.corundumstudio.socketio.SocketIOClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.xiaowu.behappy.netty.chatroom.config.AppConfiguration;
 import org.xiaowu.behappy.netty.chatroom.constant.EventNam;
 import org.xiaowu.behappy.netty.chatroom.constant.StatusType;
 import org.xiaowu.behappy.netty.chatroom.model.User;

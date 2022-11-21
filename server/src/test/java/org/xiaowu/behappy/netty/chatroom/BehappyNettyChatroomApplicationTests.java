@@ -11,12 +11,8 @@ import cn.hutool.jwt.JWTUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.connection.DataType;
-import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ScanOptions;
 import org.xiaowu.behappy.netty.chatroom.model.User;
-import org.xiaowu.behappy.netty.chatroom.util.CBeanUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;

@@ -4,7 +4,6 @@ import cn.hutool.core.exceptions.ValidateException;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTUtil;
 import cn.hutool.jwt.JWTValidator;
 import com.corundumstudio.socketio.SocketIOClient;

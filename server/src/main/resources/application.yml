@@ -6,16 +6,16 @@ chatroom:
   token-key: ${APP_TOKEN_KEY:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9}
 aliyun:
   oss:
-    access-key-id: ${OSS_KEY:}
-    access-key-secret: ${OSS_SECRET:}
-    bucket: ${OSS_BUCKET:behappy-xiaowu}
-    endpoint: ${OSS_ENDPOINT:oss-cn-beijing.aliyuncs.com}
+    access-key-id: ${APP_OSS_KEY:}
+    access-key-secret: ${APP_OSS_SECRET:}
+    bucket: ${APP_OSS_BUCKET:behappy-xiaowu}
+    endpoint: ${APP_OSS_ENDPOINT:oss-cn-beijing.aliyuncs.com}
 spring:
   redis:
     host: ${APP_REDIS_HOST:}
     password: ${APP_REDIS_PASS:}
     port: ${APP_REDIS_PORT:}
-    database: 8
+    database: ${APP_REDIS_DATABASE:}
     lettuce:
       pool:
         enabled: true
