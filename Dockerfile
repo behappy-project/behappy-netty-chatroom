@@ -17,7 +17,7 @@ RUN apt update -y \
     && apt install -y openjdk-17-jre \
     && ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 COPY default.conf /etc/nginx/conf.d/default.conf
-ARG JAR_FILE=/user/src/app/server/target/*.jar
+ARG JAR_FILE=/user/src/app/target/*.jar
 ENV JAVA_OPTS="-Xms128m -Xmx256m -Dfile.encoding=UTF-8 -Djava.security.egd=file:/dev/./urandom" \
     NODE_ENV="production"
 COPY --from=build ${JAR_FILE} app.jar
