@@ -2,15 +2,11 @@ FROM maven:3.8.5-openjdk-17 as build
 WORKDIR /user/src/app
 COPY . .
 RUN ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-    && workdir=/opt/node \
-    && mkdir -p $workdir  \
-    && curl -fsSL -o $workdir/node-v12.22.0-linux-x64.tar.gz  https://npm.taobao.org/mirrors/node/v12.22.0/node-v12.22.0-linux-x64.tar.gz \
-    && tar -xvf $workdir/node-v12.22.0-linux-x64.tar.gz \
-    && ln -sf $workdir/node-v12.22.0-linux-x64/bin/node /usr/local/bin/node \
-    && ln -sf $workdir/node-v12.22.0-linux-x64/bin/npm /usr/local/bin/npm \
-    && npm --version \
+    && curl -fsSL -o /user/src/app/node-v12.22.0-linux-x64.tar.gz  https://npm.taobao.org/mirrors/node/v12.22.0/node-v12.22.0-linux-x64.tar.gz \
+    && tar -xvf /user/src/app/node-v12.22.0-linux-x64.tar.gz \
+    && ln -sf /user/src/app/node-v12.22.0-linux-x64/bin/node /usr/local/bin/node \
+    && ln -sf /user/src/app/node-v12.22.0-linux-x64/bin/npm /usr/local/bin/npm \
     && cd client \
-    && npm --version \
     && npm i --registry=https://registry.npm.taobao.org/ \
     && npm run build \
     && cd ../ \
