@@ -7,8 +7,10 @@ RUN ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && curl -fsSL -o $workdir/node-v12.22.0-linux-x64.tar.gz  https://npm.taobao.org/mirrors/node/v12.22.0/node-v12.22.0-linux-x64.tar.gz \
     && tar -xvf $workdir/node-v12.22.0-linux-x64.tar.gz \
     && ln -sf $workdir/node-v12.22.0-linux-x64/bin/node /usr/local/bin/node \
-    && ln -sf $workdir/node-v12.22.0-linux-x64/bin/npm /usr/local/bin/npm  \
+    && ln -sf $workdir/node-v12.22.0-linux-x64/bin/npm /usr/local/bin/npm \
+    && npm --version \
     && cd client \
+    && npm --version \
     && npm i --registry=https://registry.npm.taobao.org/ \
     && npm run build \
     && cd ../ \
