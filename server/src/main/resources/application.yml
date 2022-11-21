@@ -1,7 +1,5 @@
-server:
-  port: 8888
 chatroom:
-  port: ${APP_PORT:8999}
+  port: 8999
   host: ${APP_HOST:localhost}
   token-key: ${APP_TOKEN_KEY:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9}
 aliyun:
