@@ -14,8 +14,9 @@ RUN ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 FROM nginx:latest as runtime
 WORKDIR /user/src/app
 RUN apt update -y \
-    && apt install -y openjdk-17-jre \
+    && apt install -y openjdk-17-jdk \
     && ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 COPY default.conf /etc/nginx/conf.d/default.conf
 ARG JAR_FILE=/user/src/app/target/*.jar
 ENV JAVA_OPTS="-Xms128m -Xmx256m -Dfile.encoding=UTF-8 -Djava.security.egd=file:/dev/./urandom" \
