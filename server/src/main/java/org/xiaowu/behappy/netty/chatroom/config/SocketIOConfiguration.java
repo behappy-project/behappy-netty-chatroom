@@ -1,5 +1,6 @@
 package org.xiaowu.behappy.netty.chatroom.config;
 
+import cn.hutool.core.util.StrUtil;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketConfig;
 import com.corundumstudio.socketio.SocketIOServer;
@@ -26,7 +27,10 @@ public class SocketIOConfiguration {
     @Bean
     public SocketIOServer socketIOServer() {
         Configuration config = new Configuration();
-        config.setHostname(appConfiguration.getHost());
+        if (StrUtil.isNotBlank(appConfiguration.getHost())) {
+            // If not set then bind address will be 0.0.0.0 or ::0
+            config.setHostname(appConfiguration.getHost());
+        }
         config.setPort(appConfiguration.getPort());
         // 设置允许最大帧长度
         config.setMaxFramePayloadLength(1024 * 1024);
