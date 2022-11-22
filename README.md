@@ -7,11 +7,11 @@ WebChat聊天室
 --------
 
 1. 在原项目基础上增加了注册等功能
-2. 使用netty-socket作为后端技术栈替代了nodejs
+2. 使用netty-socket作为后端技术栈代替nodejs
 3. 提供容器化支持
 
-相关技术站点
-------------
+技术站点
+--------
 
 
 | 技术栈                                      | 版本                                                     |
@@ -34,7 +34,7 @@ TODO LIST
 --------
 
 1. 下载docker-compose.yml
-2. 修改环境变量的值
+2. 修改环境变量
 3. 执行docker-compose up -d
 4. 访问http://<ip:localhost>:[port:8888](port:8888)
 

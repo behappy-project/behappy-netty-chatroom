@@ -1,0 +1,23 @@
+version: '3'
+services:
+  behappy-netty-chatroom:
+    restart: 'no'
+    privileged: true
+    container_name: behappy-netty-chatroom
+    image: wangxiaowu950330/behappy-netty-chatroom:latest
+    # 自定义环境变量
+    environment:
+      # If not set then bind address will be 0.0.0.0 or ::0
+      #APP_HOST: localhost
+      APP_TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+      APP_OSS_KEY:
+      APP_OSS_SECRET:
+      APP_OSS_BUCKET: behappy-xiaowu
+      APP_OSS_ENDPOINT: oss-cn-beijing.aliyuncs.com
+      APP_REDIS_HOST:
+      APP_REDIS_PASS:
+      APP_REDIS_PORT:
+      APP_REDIS_DATABASE: 8
+    ports:
+      # 对外提供访问的端口
+      - "8888:80"
