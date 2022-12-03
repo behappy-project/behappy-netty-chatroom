@@ -24,7 +24,6 @@ class BehappyNettyChatroomApplicationTests {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
-
     @Test
     void testRedis() {
         //User user = new User();

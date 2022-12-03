@@ -1,0 +1,28 @@
+chatroom:
+  port: 8999
+  host: ${APP_HOST:localhost}
+  token-key: ${APP_TOKEN_KEY:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9}
+aliyun:
+  oss:
+    access-key-id: ${APP_OSS_KEY:}
+    access-key-secret: ${APP_OSS_SECRET:}
+    bucket: ${APP_OSS_BUCKET:behappy-xiaowu}
+    endpoint: ${APP_OSS_ENDPOINT:oss-cn-beijing.aliyuncs.com}
+spring:
+  data:
+    redis:
+      host: ${APP_REDIS_HOST:}
+      password: ${APP_REDIS_PASS:}
+      port: ${APP_REDIS_PORT:}
+      database: ${APP_REDIS_DATABASE:}
+      lettuce:
+        pool:
+          enabled: true
+          # 连接池最大连接数（使用负值表示没有限制）
+          maxactive: 64
+          # 连接池中的最大空闲连接
+          maxidle: 64
+          # 连接池最大阻塞等待时间（使用负值表示没有限制）
+          maxwait: -1
+          # 连接池中的最小空闲连接
+          minidle: 1

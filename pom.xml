@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.4</version>
+        <version>3.0.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.xiaowu</groupId>
@@ -16,8 +16,8 @@
     <properties>
         <java.version>17</java.version>
         <socketio.version>1.7.22</socketio.version>
-        <hutool.version>5.8.9</hutool.version>
-        <redisson.version>3.18.0</redisson.version>
+        <hutool.version>5.8.10</hutool.version>
+        <redisson.version>3.18.1</redisson.version>
         <common.pool.version>2.11.1</common.pool.version>
         <alipay.sdk.oss.version>3.10.2</alipay.sdk.oss.version>
     </properties>
@@ -36,6 +36,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+            <version>7.9.3</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -62,7 +67,6 @@
             <artifactId>hutool-extra</artifactId>
             <version>${hutool.version}</version>
         </dependency>
-        <!--springboot3 todo-->
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson-spring-boot-starter</artifactId>
