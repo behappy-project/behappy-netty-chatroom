@@ -45,6 +45,11 @@ public class LoginService {
 
     public void login(User user, SocketIOClient client, boolean isReconnect) {
         userService.organizeUser(user,client);
+        // 判断是否重复登录
+        if (userService.exitActiveUser(user)) {
+            client.sendEvent(EventNam.LOGIN_FAIL,"重复登录,请先退出!");
+            return;
+        }
         // 是否需要重新登录
         if (isReconnect) {
             loginSuccess(user, client);
@@ -83,7 +88,11 @@ public class LoginService {
         data.setToken(JWTUtil.createToken(map, appConfiguration.getTokenKey().getBytes(StandardCharsets.UTF_8)));
 
         // 通知有用户加入
-        socketIOServer.getBroadcastOperations().sendEvent(EventNam.SYSTEM, user, SystemType.JOIN.getName());
+        socketIOServer.getBroadcastOperations().sendEvent(EventNam.SYSTEM,
+                /*排除自己*/
+                client,
+                user,
+                SystemType.JOIN.getName());
 
         List<User> onlineUsers = userService.getOnlineUsers();
         // 为当前client赋值user

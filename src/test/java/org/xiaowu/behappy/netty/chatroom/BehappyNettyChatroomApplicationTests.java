@@ -18,7 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-@SpringBootTest
+@SpringBootTest(classes = BehappyNettyChatroomApplicationTests.class)
 class BehappyNettyChatroomApplicationTests {
 
     @Autowired

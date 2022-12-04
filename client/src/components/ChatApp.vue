@@ -98,6 +98,9 @@
                 <span class="ui-label">消息时间</span>
                 <UiSwitch class="ui-right" v-model="setting.isTime"></UiSwitch>
               </li>
+              <li>
+                <button class="form-btn-logout" type="button" @click="logout">退出</button>
+              </li>
             </ul>
           </div>
         </div>
@@ -365,6 +368,11 @@
       this.initSocket();
     },
     methods:{
+      logout(){
+        this.socket.emit('logout')
+        sessionStorage.removeItem("behappy-token")
+        window.location.reload()
+      },
       searchUser(keyword){
         let arr=[];
         this.users.forEach( (item )=>{
@@ -603,6 +611,17 @@
 </script>
 
 <style scoped lang="less">
+  .form-btn-logout{
+    display: block;
+    width: 100%;
+    line-height: 20px;
+    font-size: 14px;
+    border: none;
+    color: #f2f2f2;
+    background-color: #e63a3a;
+    border-radius: 4px;
+    outline: none;
+  }
   .chat-app-warp{
     width: 100%;
     height: 100%;

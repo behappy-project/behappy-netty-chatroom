@@ -29,18 +29,13 @@ public class DisconnectHandler {
 
     private final SocketIOServer socketIOServer;
 
+    /**
+     * 此处经常会因`transport close`断开连接, 见
+     * https://github.com/socketio/socket.io/issues/3025
+     * @param client
+     */
     @OnDisconnect
     public void onDisconnect(SocketIOClient client) {
         log.debug("用户断开链接: {}", client.getSessionId().toString());
-        // 判断是否是已登录用户
-        User user = (User) client.get(Common.USER_KEY);
-        if (Objects.nonNull(user)) {
-            client.del(Common.USER_KEY);
-            if (StrUtil.isNotBlank(user.getId())) {
-                // 修改登录用户信息并通知所有在线用户
-                socketIOServer.getBroadcastOperations().sendEvent(EventNam.SYSTEM, user, SystemType.LOGOUT.getName());
-                storeService.saveOrUpdateUser(user, StatusType.LOGOUT);
-            }
-        }
     }
 }

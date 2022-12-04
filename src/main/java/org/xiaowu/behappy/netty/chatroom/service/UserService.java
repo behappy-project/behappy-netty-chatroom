@@ -67,6 +67,19 @@ public class UserService {
         return storeService.getUserByName(name);
     }
 
+    public Boolean exitActiveUser(User sc) {
+        // Returns the matching socket instances
+        return socketIOServer.getAllClients()
+                .stream()
+                .anyMatch(socketIOClient -> {
+                    User user = (User) socketIOClient.get(USER_KEY);
+                    if (Objects.nonNull(user)) {
+                        return user.getName().equals(sc.getName());
+                    }
+                    return false;
+                });
+    }
+
     public void organizeUser(User user, SocketIOClient client){
         String ip = StrUtil.replace(client.getHandshakeData().getAddress().getHostString(), "::ffff:", "");
         HttpHeaders httpHeaders = client.getHandshakeData().getHttpHeaders();

@@ -14,19 +14,20 @@ WebChat聊天室
 --------
 
 
-| 技术栈                                      | 版本                                                     |
-| ------------------------------------------- | -------------------------------------------------------- |
-| socket.io-client(提供websocket客户端支持)   | 2.5.0(目前netty-socket最高支持2.x版本的socket.io-client) |
-| netty-socket(socket.io的java语言服务端实现) | 1.7.22                                                   |
-| nodejs                                      | >= 12                                                    |
-| jdk                                         | 17                                                       |
-| springboot                                  | 3.0.0                                                    |
-| redisson                                    | 3.18.1                                                   |
+| 技术栈                                      | 版本                                               |
+| ------------------------------------------- |--------------------------------------------------|
+| socket.io-client(提供websocket客户端支持)   | 2.5.0(目前netty-socketio仅支持2.x版本的socket.io-client) |
+| netty-socketio(socket.io的java语言服务端实现) | 1.7.22                                           |
+| nodejs                                      | >= 12                                            |
+| jdk                                         | >= 17                                            |
+| springboot                                  | 3.0.0                                            |
+| redisson                                    | 3.18.1                                           |
 
 TODO LIST
 ---------
 
 [✔]注册, 登录验证
+[✔]退出登录
 [  ]创建群组
 [  ]添加群组
 

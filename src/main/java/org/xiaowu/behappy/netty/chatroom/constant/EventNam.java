@@ -28,5 +28,7 @@ public interface EventNam {
 
     String LOGIN = "login";
 
+    String LOGOUT = "logout";
+
     String REGISTER = "register";
 }
