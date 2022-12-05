@@ -13,7 +13,8 @@ RUN ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && mvn clean package -DskipTests
 FROM nginx:latest as runtime
 WORKDIR /user/src/app
-RUN apt update -y \
+RUN sed -i "s@http://\(deb\|security\).debian.org@https://mirrors.aliyun.com@g" /etc/apt/sources.list \
+    && apt update -y \
     && apt install -y openjdk-17-jdk \
     && ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64

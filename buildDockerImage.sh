@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # 配置环境变量: $REGISTRY_PASSWORD,$REGISTRY_USERNAME,$REGISTRY_ADDRESS
 IMAGE=${REGISTRY_USERNAME}/behappy-netty-chatroom:latest
 # 登陆
