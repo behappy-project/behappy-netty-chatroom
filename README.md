@@ -40,7 +40,7 @@ TODO LIST
 1. 下载docker-compose.yml
 2. 修改环境变量
 3. 执行docker-compose up -d
-4. 访问http://<ip:localhost>:<port:8888>
+4. 访问http://[ip:localhost]:[port:8888]
 
 项目预览截图
 ------------
