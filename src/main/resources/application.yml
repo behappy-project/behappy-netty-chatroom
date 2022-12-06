@@ -1,6 +1,6 @@
 chatroom:
   port: 8999
-  host: ${APP_HOST:localhost}
+  host: ${APP_HOST:}
   token-key: ${APP_TOKEN_KEY:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9}
 aliyun:
   oss:
