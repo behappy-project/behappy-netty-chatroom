@@ -7,7 +7,7 @@ WebChat聊天室
 --------
 
 1. 在原项目基础上增加了注册退出等功能(后续还会完善更多功能上来)
-2. 使用netty-socketio作为后端技术栈代替nodejs
+2. 使用netty-socketio作为后端技术栈代替socket.io
 3. 提供容器化支持
 
 技术站点
